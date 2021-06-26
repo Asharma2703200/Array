@@ -1,0 +1,44 @@
+Example 1:
+
+Input: nums = [3,5,6,7], target = 9
+Output: 4
+Explanation: There are 4 subsequences that satisfy the condition.
+[3] -> Min value + max value <= target (3 + 3 <= 9)
+[3,5] -> (3 + 5 <= 9)
+[3,5,6] -> (3 + 6 <= 9)
+[3,6] -> (3 + 6 <= 9)
+
+
+
+
+
+
+
+
+
+class Solution {
+    public int numSubseq(int[] nums, int target) {
+        if(nums.length < 2 ) return 0;
+        Arrays.sort(nums);
+        
+        int[] max = new int[nums.length];
+        max[0] = 1;
+        for(int i = 1 ; i < max.length ; i++){
+            max[i] = (max[i - 1]*2) % 1000000007;
+        }
+        
+        int l = 0;
+        int r = nums.length - 1;
+        int ans = 0;
+        while(l <= r){
+            
+            if(nums[l] + nums[r] <= target){
+                ans = (ans + max[r - l]) % 1000000007;
+                l = l + 1;
+            }else{
+                r = r - 1;
+            }
+        }
+        return ans;
+    }
+}
